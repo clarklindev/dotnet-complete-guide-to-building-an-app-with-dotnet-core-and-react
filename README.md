@@ -167,7 +167,83 @@ dotnet sln add Persistence
 ---
 
 ### Reviewing whats in the projects
-- Running the project: from 'API/' folder
+- Running the project: from '/reactivities/API' folder: uses Program.cs
+- http://localhost:5062
+- note: instead of dotnet run can use `dotnet watch`
 ```
 dotnet run
 ```
+
+- has no view, just API endpoints eg. (see API/Controllers/WeatherForecastController.cs)
+- the route is `WeatherForecastController` without the 'Controller' keyword
+- http://localhost:5062/WeatherForecast
+```cs
+[ApiController]
+[Route("[controller]")]
+public class WeatherForecastController : ControllerBase
+```
+
+- look at `API/Properties/launchSettings.json`, it shows the route that app starts at 'profiles' and takes first in the list 'http' and under 'applicationUrl'
+- remove the first profile `http`
+- applicationUrl -> keep the https
+
+```cs
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:5001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+
+```
+
+- restart server with `watch`
+```
+dotnet watch
+```
+
+- project configuration: `API.csproj` update:
+```cs
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+  </ItemGroup>
+
+</Project>
+
+```
+- delete `API/API.http` used for testing api endpoints but easier to test with POSTMAN
+
+- Program.cs - usually has main() method but microsoft moved it so you dont see it.
+    - it has services
+    - http request pipeline
+    - remove `builder.Services.AddOpenApi();`
+    - remove:
+    ```cs
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapOpenApi();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+    ```
+- `app.MapControllers();` provides the routing

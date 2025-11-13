@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "aBhITAohhgo=",
+  "dgSpecHash": "ke+0aYJvd/I=",
   "success": true,
   "projectFilePath": "C:\\Users\\admin\\Downloads\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\API\\API.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\admin\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.0\\microsoft.aspnetcore.openapi.10.0.0.nupkg.sha512",
-    "C:\\Users\\admin\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }
