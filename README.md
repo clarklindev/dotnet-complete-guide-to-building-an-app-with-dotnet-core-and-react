@@ -186,6 +186,7 @@ public class WeatherForecastController : ControllerBase
 - look at `API/Properties/launchSettings.json`, it shows the route that app starts at 'profiles' and takes first in the list 'http' and under 'applicationUrl'
 - remove the first profile `http`
 - applicationUrl -> keep the https
+- recommended -> use port 5001
 
 ```cs
 {
@@ -247,3 +248,26 @@ dotnet watch
     app.UseAuthorization();
     ```
 - `app.MapControllers();` provides the routing
+
+### Creating a domain entity 
+- solutions explorer -> `Domain` -> delete `Class1.cs`
+- right-click on Domain -> new file -> Class -> name entity (model) class called 'Activity'
+- entity class will relate to a table inside DB
+- each property will relate to a column in table
+- add a property: type 'prop' then `TAB`
+- create `Id` property using `Guid.NewGuid().ToString();`
+
+```cs
+// Domain/Activity.cs
+using System;
+
+namespace Domain;
+
+public class Activity
+{
+  public string Id { get; set; } = Guid.NewGuid().ToString();
+}
+
+```
+
+- `entity` is a db model

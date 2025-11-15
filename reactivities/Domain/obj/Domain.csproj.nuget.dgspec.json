@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Downloads\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj": {}
+    "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Downloads\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj": {
+    "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Downloads\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\admin\\Downloads\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Downloads\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
