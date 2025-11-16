@@ -20,6 +20,8 @@
 - `git config --global alias.adog "log --all --decorate --oneline --graph"`
 - `git adog`
 
+---
+
 ## 02. Building a walking skeleton Part 1 - .Net API
 
 ### introduction
@@ -105,14 +107,16 @@ xUnit Test Project                            xunit                         [C#]
     - Class Library                                 classlib                      [C#],F#,VB  Common/Library
 
 #### create solution file
-- create `reactivities.slnx` from `reactivities/` folder we created:
+- create a solution file `reactivities.slnx` from inside `Reactivities/` folder:
+- a solution file is just a container for all our different projects
 ```cmd
 dotnet new sln
 ```
 
 #### create webapi
-- create webapi: call it `API` which will create an `API` folder
-- also create controllers in API controllers folder (-controllers)
+- create webapi template: call it `API` which will create an `API` folder
+- the default way of creating a webapi nowadays is to use the minimal api type of configuration (too clutterd for what we will be doing)
+- so we will be creating api controllers in API controllers folder (-controllers)
 ```
 dotnet new webapi -n API -controllers
 ```
@@ -125,7 +129,7 @@ dotnet new classlib -n Domain
 
 - create one for application layer
 ```
-dotnet new classlib - Application
+dotnet new classlib -n Application
 ```
 
 - create one for persistence
@@ -266,8 +270,133 @@ namespace Domain;
 public class Activity
 {
   public string Id { get; set; } = Guid.NewGuid().ToString();
+  //...
 }
 
 ```
 
 - `entity` is a db model
+
+### Creating the Entity Framework DbContext class
+- DbContext class provides connection to database
+
+- using nuget: 
+
+#### microsoft.EnitityFrameworkCore.sqlite
+- `microsoft.entityframework` search for `microsoft.EnitityFrameworkCore.sqlite`
+  - NOTE: the version must match the .dotnet framework version
+- once selected, you can select which project to install it into `Persistence.csproj`
+- inside `Persistence/` delete `Class1.cs`
+
+#### microsoft.EntityFrameworkCore.Design
+- `microsoft.EntityFrameworkCore.Design` -> add to `API.csproj`
+
+
+- rightClick - Persistence -> new file -> Class -> `AppDbContext.cs`
+
+```cs
+// AppDbContext.cs
+using System;
+using Domain;
+using Microsoft.EntityFrameworkCore;
+
+namespace Persistence;
+
+public class AppDbContext(DbContextOptions options) : DbContext(options)
+{
+    public required DbSet<Activity> Activities { get; set; }
+}
+
+
+```
+- then inside API/ project -> Program.cs
+
+```cs
+using Microsoft.EntityFrameworkCore;
+using Persistence;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+var app = builder.Build();
+
+app.MapControllers();
+
+app.Run();
+
+```
+
+### Creating an Entity Framework migration
+
+- when the app starts up it will look for the configuration
+  - API/appsettings.json (for secret api keys and exclude from git repo)
+  - API/appsettings.Development.json
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Information"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Data source=reactivities.db"
+  }
+}
+
+```
+- make an entity framework migration
+- google -> `dotnet ef nuget` -> https://www.nuget.org/packages/dotnet-ef
+
+- from `Reactivities/API/`
+```
+dotnet tool install --global dotnet-ef --version 10.0.0
+```
+
+- after install in cmd -> `dotnet ef`
+
+- the point of these migrations is entity framwork will look inside our AppDbContext.cs and sees it should create table Activities
+
+```cs
+  public required DbSet<Activity> Activities { get; set; }
+```
+
+- ef will look at `Domain/Activity.cs` properties and make decisions on what type of column it will be
+- by default an `Id` property will be used as primary key for table in db
+- without `Id` property, to tell Entity framework what property to use as primary key - you do it like this `[Key]`:
+
+```cs
+[Key]
+public string Id {get; set;} = Guid.NewGuid().ToString();
+```
+
+#### creating the migration
+- from `Reactivities/` (folder where .sln is)
+- specify the project (-p) that contains the db context `Persistence`
+- and the starter project (-s) `API`
+
+```
+dotnet ef migrations add InitialCreate -p Persistence -s API
+```
+- this creates a folder `Migrations` inside `Persistence`
+
+#### applying the migrations
+- from `Reactivities/`
+```
+dotnet ef database update -p Persistence -s API
+```
+- it creates `API/reactivities.db`
+
+#### delete database
+- delete the database, we will create it through code
+```
+dotnet ef database drop -p Persistence -s API
+```

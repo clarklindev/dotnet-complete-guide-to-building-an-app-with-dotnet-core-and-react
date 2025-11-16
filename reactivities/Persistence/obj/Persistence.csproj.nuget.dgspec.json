@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Persistence\\Persistence.csproj": {}
+    "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Persistence\\Persistence.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj": {
+    "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -337,14 +337,14 @@
         }
       }
     },
-    "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Persistence\\Persistence.csproj": {
+    "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Persistence\\Persistence.csproj",
+        "projectPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Persistence\\Persistence.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Persistence\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -359,8 +359,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\reactivities\\Domain\\Domain.csproj"
+              "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\admin\\Downloads\\CODE\\dotnet-complete-guide-to-building-an-app-with-dotnet-core-and-react\\Reactivities\\Domain\\Domain.csproj"
               }
             }
           }
@@ -380,6 +380,12 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
