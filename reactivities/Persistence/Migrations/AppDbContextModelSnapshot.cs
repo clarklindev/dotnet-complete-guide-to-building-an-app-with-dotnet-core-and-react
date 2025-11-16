@@ -40,7 +40,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsCancelled")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Latitiude")
+                    b.Property<double>("Latitude")
                         .HasColumnType("REAL");
 
                     b.Property<double>("Longitude")

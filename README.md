@@ -400,3 +400,30 @@ dotnet ef database update -p Persistence -s API
 ```
 dotnet ef database drop -p Persistence -s API
 ```
+
+### Seeding data into the Database
+- Solutions Explorer -> Persistence -> right-click -> new Class -> `Dbinitializer`
+- we will use this to seed our data
+
+- when using `Activity` in `Persistence/Dbinitializer.cs` -> import `using Domain` 
+
+- in `API/Program.cs` we will use this seed data.
+- we apply migration with code..
+
+```cs
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+    var context = services.GetRequiredService<AppDbContext>();
+    await context.Database.MigrateAsync();
+    await Dbinitializer.SeedData(context);
+}
+catch(Exception ex)
+{
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred during migration");
+}
+```
+

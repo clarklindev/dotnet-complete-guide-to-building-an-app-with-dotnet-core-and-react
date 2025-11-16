@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251116061329_InitialCreate")]
+    [Migration("20251116103802_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -43,7 +43,7 @@ namespace Persistence.Migrations
                     b.Property<bool>("IsCancelled")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Latitiude")
+                    b.Property<double>("Latitude")
                         .HasColumnType("REAL");
 
                     b.Property<double>("Longitude")
