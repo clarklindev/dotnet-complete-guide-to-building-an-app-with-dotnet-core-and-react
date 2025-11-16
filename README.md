@@ -427,3 +427,65 @@ catch(Exception ex)
 }
 ```
 
+### Creating an API Controller
+- be able to query and return data from http response
+- we need an API controller
+- we create BaseApiController.cs
+  - rightclick `API/Controllers/` -> API Controller -> name it `BaseApiController`
+
+```cs
+// BaseApiController.cs
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class BaseApiController : ControllerBase
+    {
+    }
+}
+
+```
+- rightclick API/Controllers/ -> new class -> `ActivitiesController`
+- now inherits from `BaseApiController`
+- we inject via primary constructor `AppDbContext context`
+```cs
+// ActivitiesController.cs
+
+using System;
+using Microsoft.AspNetCore.Mvc;
+using Persistence;
+using Domain;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.Controllers;
+
+public class ActivitiesController(AppDbContext context) : BaseApiController
+{
+    [HttpGet]
+    public async Task<ActionResult<List<Activity>>> GetActivities()
+    {
+        return await context.Activities.ToListAsync();
+    }
+
+    [HttpGet("{id}")]   
+    public async Task<ActionResult<Activity>> GetActivityDetail(string id)
+    {
+        var activity = await context.Activities.FindAsync(id);
+
+        if (activity == null)
+        {
+            return NotFound();
+        }
+
+        return activity;
+    }
+}
+
+```
+- NOTE: its https://
+- now revisiting `https://localhost:5001/api/activities` should give back a list of activities
+- and https://localhost:5001/api/activities/29b6ff9e-45e6-4b1b-8d8f-5446f7aaca7f should give back one single activity
+
