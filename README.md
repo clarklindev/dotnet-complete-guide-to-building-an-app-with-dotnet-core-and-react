@@ -489,3 +489,10 @@ public class ActivitiesController(AppDbContext context) : BaseApiController
 - now revisiting `https://localhost:5001/api/activities` should give back a list of activities
 - and https://localhost:5001/api/activities/29b6ff9e-45e6-4b1b-8d8f-5446f7aaca7f should give back one single activity
 
+### Saving our code into source control
+from `Reactivities/`
+```
+dotnet new gitignore
+```
+- then gitignore `API/appsettings.json`
+- exclude `API/reactivities.db`
