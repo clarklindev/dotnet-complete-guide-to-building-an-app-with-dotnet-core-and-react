@@ -10,8 +10,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
+builder.Services.AddCors();
+    
 var app = builder.Build();
+
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+.WithOrigins("http://localhost:3000", "https://localhost:3000"));
 
 app.MapControllers();
 
@@ -24,9 +28,10 @@ try
     await context.Database.MigrateAsync();
     await Dbinitializer.SeedData(context);
 }
-catch(Exception)
+catch(Exception ex)
 {
-    
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "An error occurred during migration");
 }
 
 app.Run();

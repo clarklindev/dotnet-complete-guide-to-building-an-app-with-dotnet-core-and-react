@@ -15,6 +15,7 @@
 - SQLite Viewer
 
 ### Course assets and source code
+
 - github.com/TryCatchLearn/reactivities
 - `git log --all --decorate --oneline --graph`
 - `git config --global alias.adog "log --all --decorate --oneline --graph"`
@@ -25,18 +26,19 @@
 ## 02. Building a walking skeleton Part 1 - .Net API
 
 ### introduction
+
 - walking skeleton is a tiny implementation of the system that performs a small end-to-end function
 - learning goals:
-    - creating .net projects
-    - project architecture
-    - dotnet CLI
-    - .Net project files
-    - running the .net application
-    - entity framework (object relational mapper providing connection for db - maps c# code into sql queries)
-    - seeding data
-    - code first migrations
-    - postman
-    - git for source control
+  - creating .net projects
+  - project architecture
+  - dotnet CLI
+  - .Net project files
+  - running the .net application
+  - entity framework (object relational mapper providing connection for db - maps c# code into sql queries)
+  - seeding data
+  - code first migrations
+  - postman
+  - git for source control
 
 ### Creating the .Net projects
 
@@ -45,12 +47,13 @@ dotnet --info
 ```
 
 - listing templates can create using dotnet cmd
+
 ```
 dotnet new list
 ```
 
 ```
-These templates matched your input: 
+These templates matched your input:
 
 Template Name                                 Short Name                    Language    Tags
 --------------------------------------------  ----------------------------  ----------  ----------------------------------
@@ -102,42 +105,51 @@ xUnit Test Project                            xunit                         [C#]
 ```
 
 - we will use
-    - ASP.NET Core Web API                          webapi   
-    - Solution File                                 sln,solution                              Solution
-    - Class Library                                 classlib                      [C#],F#,VB  Common/Library
+  - ASP.NET Core Web API webapi
+  - Solution File sln,solution Solution
+  - Class Library classlib [C#],F#,VB Common/Library
 
 #### create solution file
+
 - create a solution file `reactivities.slnx` from inside `Reactivities/` folder:
 - a solution file is just a container for all our different projects
+
 ```cmd
 dotnet new sln
 ```
 
 #### create webapi
+
 - create webapi template: call it `API` which will create an `API` folder
 - the default way of creating a webapi nowadays is to use the minimal api type of configuration (too clutterd for what we will be doing)
 - so we will be creating api controllers in API controllers folder (-controllers)
+
 ```
 dotnet new webapi -n API -controllers
 ```
 
 #### create classlib libraries
+
 - create a classlib called Domain
+
 ```
 dotnet new classlib -n Domain
 ```
 
 - create one for application layer
+
 ```
 dotnet new classlib -n Application
 ```
 
 - create one for persistence
+
 ```
 dotnet new classlib -n Persistence
 ```
 
 #### add projects into the solution
+
 ```
 dotnet sln add API
 dotnet sln add Application
@@ -146,13 +158,15 @@ dotnet sln add Persistence
 ```
 
 ### goto vscode -> solution explorer view
+
 - in vscode you have on left: "solution explorer view"
 
 #### API references
-- solution explorer: need to add reference going from API to Application 
-    - rightclick on API -> add project reference -> select `Application`
+
+- solution explorer: need to add reference going from API to Application
+  - rightclick on API -> add project reference -> select `Application`
 - select `API` -> you will see a project reference
-    
+
 ```csproj
 <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
@@ -160,20 +174,25 @@ dotnet sln add Persistence
 ```
 
 #### Application references
+
 - solution explorer: Application needs reference to `Domain` and `Persistence` (see above)
 
 #### Domain references
+
 - none
 
 #### Persistence references
+
 - solution explorer: Persistence needs references to `Domain`
 
 ---
 
 ### Reviewing whats in the projects
+
 - Running the project: from '/reactivities/API' folder: uses Program.cs
 - http://localhost:5062
 - note: instead of dotnet run can use `dotnet watch`
+
 ```
 dotnet run
 ```
@@ -181,6 +200,7 @@ dotnet run
 - has no view, just API endpoints eg. (see API/Controllers/WeatherForecastController.cs)
 - the route is `WeatherForecastController` without the 'Controller' keyword
 - http://localhost:5062/WeatherForecast
+
 ```cs
 [ApiController]
 [Route("[controller]")]
@@ -196,7 +216,7 @@ public class WeatherForecastController : ControllerBase
 {
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
-    
+
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
@@ -212,11 +232,13 @@ public class WeatherForecastController : ControllerBase
 ```
 
 - restart server with `watch`
+
 ```
 dotnet watch
 ```
 
 - project configuration: `API.csproj` update:
+
 ```cs
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
@@ -233,27 +255,32 @@ dotnet watch
 </Project>
 
 ```
+
 - delete `API/API.http` used for testing api endpoints but easier to test with POSTMAN
 
 - Program.cs - usually has main() method but microsoft moved it so you dont see it.
-    - it has services
-    - http request pipeline
-    - remove `builder.Services.AddOpenApi();`
-    - remove:
-    ```cs
-    // Configure the HTTP request pipeline.
-    if (app.Environment.IsDevelopment())
-    {
-        app.MapOpenApi();
-    }
 
-    app.UseHttpsRedirection();
+  - it has services
+  - http request pipeline
+  - remove `builder.Services.AddOpenApi();`
+  - remove:
 
-    app.UseAuthorization();
-    ```
+  ```cs
+  // Configure the HTTP request pipeline.
+  if (app.Environment.IsDevelopment())
+  {
+      app.MapOpenApi();
+  }
+
+  app.UseHttpsRedirection();
+
+  app.UseAuthorization();
+  ```
+
 - `app.MapControllers();` provides the routing
 
-### Creating a domain entity 
+### Creating a domain entity
+
 - solutions explorer -> `Domain` -> delete `Class1.cs`
 - right-click on Domain -> new file -> Class -> name entity (model) class called 'Activity'
 - entity class will relate to a table inside DB
@@ -278,19 +305,21 @@ public class Activity
 - `entity` is a db model
 
 ### Creating the Entity Framework DbContext class
+
 - DbContext class provides connection to database
 
-- using nuget: 
+- using nuget:
 
 #### microsoft.EnitityFrameworkCore.sqlite
+
 - `microsoft.entityframework` search for `microsoft.EnitityFrameworkCore.sqlite`
   - NOTE: the version must match the .dotnet framework version
 - once selected, you can select which project to install it into `Persistence.csproj`
 - inside `Persistence/` delete `Class1.cs`
 
 #### microsoft.EntityFrameworkCore.Design
-- `microsoft.EntityFrameworkCore.Design` -> add to `API.csproj`
 
+- `microsoft.EntityFrameworkCore.Design` -> add to `API.csproj`
 
 - rightClick - Persistence -> new file -> Class -> `AppDbContext.cs`
 
@@ -309,6 +338,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
 
 ```
+
 - then inside API/ project -> Program.cs
 
 ```cs
@@ -351,12 +381,13 @@ app.Run();
     "DefaultConnection": "Data source=reactivities.db"
   }
 }
-
 ```
+
 - make an entity framework migration
 - google -> `dotnet ef nuget` -> https://www.nuget.org/packages/dotnet-ef
 
 - from `Reactivities/API/`
+
 ```
 dotnet tool install --global dotnet-ef --version 10.0.0
 ```
@@ -379,6 +410,7 @@ public string Id {get; set;} = Guid.NewGuid().ToString();
 ```
 
 #### creating the migration
+
 - from `Reactivities/` (folder where .sln is)
 - specify the project (-p) that contains the db context `Persistence`
 - and the starter project (-s) `API`
@@ -386,26 +418,33 @@ public string Id {get; set;} = Guid.NewGuid().ToString();
 ```
 dotnet ef migrations add InitialCreate -p Persistence -s API
 ```
+
 - this creates a folder `Migrations` inside `Persistence`
 
 #### applying the migrations
+
 - from `Reactivities/`
+
 ```
 dotnet ef database update -p Persistence -s API
 ```
+
 - it creates `API/reactivities.db`
 
 #### delete database
+
 - delete the database, we will create it through code
+
 ```
 dotnet ef database drop -p Persistence -s API
 ```
 
 ### Seeding data into the Database
+
 - Solutions Explorer -> Persistence -> right-click -> new Class -> `Dbinitializer`
 - we will use this to seed our data
 
-- when using `Activity` in `Persistence/Dbinitializer.cs` -> import `using Domain` 
+- when using `Activity` in `Persistence/Dbinitializer.cs` -> import `using Domain`
 
 - in `API/Program.cs` we will use this seed data.
 - we apply migration with code..
@@ -428,6 +467,7 @@ catch(Exception ex)
 ```
 
 ### Creating an API Controller
+
 - be able to query and return data from http response
 - we need an API controller
 - we create BaseApiController.cs
@@ -448,9 +488,11 @@ namespace API.Controllers
 }
 
 ```
+
 - rightclick API/Controllers/ -> new class -> `ActivitiesController`
 - now inherits from `BaseApiController`
 - we inject via primary constructor `AppDbContext context`
+
 ```cs
 // ActivitiesController.cs
 
@@ -470,7 +512,7 @@ public class ActivitiesController(AppDbContext context) : BaseApiController
         return await context.Activities.ToListAsync();
     }
 
-    [HttpGet("{id}")]   
+    [HttpGet("{id}")]
     public async Task<ActionResult<Activity>> GetActivityDetail(string id)
     {
         var activity = await context.Activities.FindAsync(id);
@@ -485,14 +527,170 @@ public class ActivitiesController(AppDbContext context) : BaseApiController
 }
 
 ```
+
 - NOTE: its https://
 - now revisiting `https://localhost:5001/api/activities` should give back a list of activities
 - and https://localhost:5001/api/activities/29b6ff9e-45e6-4b1b-8d8f-5446f7aaca7f should give back one single activity
 
 ### Saving our code into source control
+
 from `Reactivities/`
+
 ```
 dotnet new gitignore
 ```
+
 - then gitignore `API/appsettings.json`
 - exclude `API/reactivities.db`
+
+---
+
+## 03. Building a walking skeleton part 2 - React
+
+### Creating the React project
+
+- using vite
+- vite project will reside in the dotnet resolution folder `Reactivities/`
+
+```
+npm create vite@latest
+```
+
+- call it 'client' -> select react project -> typescript + SWC
+- note: if you get this error
+
+```
+npm : File C:\Program Files\nodejs\npm.ps1 cannot be loaded because running scripts is disabled on this system.
+For more information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+```
+
+- fix:
+
+```sh
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+- test `http://localhost:5173/`
+
+### Reviewing the React project files
+
+- update server to use port 3000 (vite.config.ts)
+
+```ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+
+// https://vite.dev/config/
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  plugins: [react()],
+});
+```
+
+- test (Reactivities/client):
+
+```
+npm run dev
+```
+
+#### Vscode plugins
+
+- `ES7+ React/Redux/React-Native snippets`
+- `Eslint`
+
+### Fetching data from the API
+
+### Configuring CORS on the API
+
+- cors is a security feature configured on server side that controls a domains ability to make requests to the server
+
+### Creating an Activity type in TypeScript
+
+- google: `json to ts` and copy on of the returned items from browser tools -> network -> fetch/xhr -> response
+
+### Using the React developer tools
+
+- chrome web store - `react developer tools`
+
+### Adding Material UI
+
+- `mui.com/core/` -> [materialUI](https://mui.com/material-ui/)
+
+- using v6 (to follow course)
+
+```
+npm install @mui/material@^6.0.0 @emotion/react @emotion/styled
+```
+
+#### fonts
+
+- materialUI uses font: Roboto
+
+```
+npm install @fontsource/roboto
+```
+
+- copy fonts into main.tsx
+
+```
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+```
+
+#### icons
+
+```
+npm install @mui/icons-material@^6.0.0
+```
+
+#### link
+
+- tags are auto updated
+- settings -> `linked editing` should be checked.
+
+### Adding HTTPS support to the client app
+
+- make locally trusted development certificates
+- `npm i -D vite-plugin-mkcert`
+
+#### mkcert usage
+
+- vite.config.ts
+
+```ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react-swc";
+import mkcert from "vite-plugin-mkcert";
+
+// https://vite.dev/config/
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  plugins: [react(), mkcert()],
+});
+```
+
+- The list of generated files:
+  - `\.vite-plugin-mkcert\dev.pem`
+  - `\.vite-plugin-mkcert\cert.pem`
+
+#### trust certificate on server
+
+- open cmd as administrator
+
+```
+dotnet dev-certs https --clean
+dotnet dev-certs https --trust
+```
+
+### Adding Axios for data fetching
+
+- using axios
+- https://axios-http.com/docs/intro
+
+- `npm install axios`
