@@ -753,3 +753,81 @@ UI, Web, Devices, Db, External interfaces (Frameworks and drivers)
 - query - answers a question - does NOT modify state, should return a value
 
 ### Adding a Mediator handler for a List
+
+- the API has a dependency on Application (one-way -> ie. has access to classes and methods inside Application)
+- the mediator is a go-between between API and application
+- the mediator receives object and putting objects back to API
+
+- Nuget -> `mediatr` -> Mediatr @ jimmy bogard -> install to `Application`
+- we will use this to create handlers for use casses in our Application layer
+- Solutions explorer -> Application -> (rightclick -> add folder `Activities`) -> (rightclick -> add folder `Queries`)
+- inside `Queries` -> new file -> Class `GetActivityList`
+- NOTE: class `Handler` uses interface IRequestHandler (takes 2 parameters a Qeury and will in response return a `List<Activity>`)
+- we use an interface so we need to implement its required methods, hover over the red underline and select `quickfix -> implement interface`
+- because we need it to fetch data from db -> we need to inject into this the db context class
+
+```cs
+// Application/Activities/Queries/GetActivityList
+using System;
+using Domain;
+using MediatR;
+using Persistence;
+using Microsoft.EntityFrameworkCore;
+
+namespace Application.Activities.Queries;
+
+public class GetActivityList
+{
+    public class Query : IRequest<List<Activity>>
+    {
+    }
+
+    public class Handler(AppDbContext context) : IRequestHandler<Query, List<Activity>>
+    {
+        public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
+        {
+            return await context.Activities.ToListAsync(cancellationToken);
+        }
+    }
+}
+
+```
+
+- this gets used by activities controller: `API/Controllers/ActivitiesController`
+- to use mediator, use IMediator interface to send request to handler
+- now the activities is being processed by application layer (and activity controller doesnt know anything about the logic because thats being passed on to the application layer)
+
+```cs
+// API/Controllers/ActivitiesController
+public class ActivitiesController(AppDbContext context, IMediator mediator) : BaseApiController
+{
+    [HttpGet]
+    public async Task<ActionResult<List<Activity>>> GetActivities()
+    {
+        // return await context.Activities.ToListAsync();
+        return await mediator.Send(new GetActivityList.Query());
+    }
+
+    // ...
+}
+```
+
+- because we are using mediator as a service (injecting it in `ActivitiesController`) we need to also go to `Program.cs` class and add it as a service inside
+
+```cs
+// Program.cs
+
+// ...
+builder.Services.AddMediatR(x => x.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>());
+
+```
+
+- restart dotnet
+
+```
+dotnet watch
+```
+
+#### test with postman
+
+- module 4 -> `get activities` -> send

@@ -485,3 +485,5 @@ API/appsettings.json
 API/bin/*
 
 API/reactivities.db
+API/reactivities.db-shm
+API/reactivities.db-wal
