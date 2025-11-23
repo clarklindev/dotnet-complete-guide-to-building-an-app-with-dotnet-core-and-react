@@ -694,3 +694,62 @@ dotnet dev-certs https --trust
 - https://axios-http.com/docs/intro
 
 - `npm install axios`
+
+---
+
+## 04. Creating a CRUD application using CQRS and Mediator in .Net
+
+### Introduction
+
+- creating a CRUD Application using the CQRS + mediator pattern
+- clean architecture pattern
+- CQRS (Command Query Responsibility and Segregation) + mediator pattern
+  - separates commands (update db) from queries (read from db)
+  - mediator mediates between layers in application
+- creating handlers for CRUD operations
+
+### Clean architecture concepts
+
+Entities (Enterprise Business Rules)
+
+- eg. Activity entity (table)
+
+↑
+
+Use Cases (Application business rules)
+
+- get list of activity
+- get detail of an activity
+- create activity
+- edit activity
+- delete activity
+
+↑
+
+Controllers, Gateways, presenters (interface adapters)
+
+- connector between business logic (use cases) and framework specific code
+- where API is
+
+↑
+
+UI, Web, Devices, Db, External interfaces (Frameworks and drivers)
+
+- user interface and database
+
+---
+
+#### clean architecture recommendations
+
+- independent from frameworks
+- testable
+- independent from interface
+- independent from database
+
+### CQRS concepts
+
+- Command Query Responsibility and Segregation (Command and query separation)
+- commands - should modify state AND not return a value
+- query - answers a question - does NOT modify state, should return a value
+
+### Adding a Mediator handler for a List
